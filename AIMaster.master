@@ -117,6 +117,9 @@
                                 Value="ItmBalStat"></asp:MenuItem>
                             <asp:MenuItem NavigateUrl="~/Report/frmReportCurrentPrice.aspx" Text="Current Price Report"
                                 Value="RptCurrentPrice"></asp:MenuItem>
+                            <asp:MenuItem NavigateUrl="~/Report/frmReportBalanceTransferHistory.aspx" Text="Balance Transfer History"
+                                Value="RptBalTransHist"></asp:MenuItem>
+                                
                         </asp:MenuItem>
                         <asp:MenuItem Text="Admin" Value="Administration">
                             <asp:MenuItem NavigateUrl="~/Administration/frmWarehouseManagement.aspx" Text="Warehouse Management"
