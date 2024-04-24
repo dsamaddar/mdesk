@@ -8,20 +8,53 @@ Partial Class Procurement_frmInvoiceInput
     Dim EmpData As New clsEmployeeInfoDataAccess()
 
     Protected Sub btnGenerateInvoice_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnGenerateInvoice.Click
-
-        If drpSupplier.SelectedValue = "N\A" Then
-            MessageBox("Select A Supplier First.")
-            Exit Sub
-        End If
-
-        If drpApprover.SelectedValue = "N\A" Then
-            MessageBox("Select Invoice Approver.")
-            Exit Sub
-        End If
-
-        Dim Invoice As New clsInvoice()
-
         Try
+            If drpSupplier.SelectedValue = "N\A" Then
+                MessageBox("Select A Supplier First.")
+                Exit Sub
+            End If
+
+            If drpApprover.SelectedValue = "N\A" Then
+                MessageBox("Select Invoice Approver.")
+                Exit Sub
+            End If
+
+            Dim Invoice As New clsInvoice()
+            Dim folder As String = ""
+            Dim Title As String = ""
+            Dim DocExt As String = ""
+            Dim DocFullName As String = ""
+            Dim DocPrefix As String = ""
+            Dim FileSize As Integer = 0
+            Dim DocFileName As String = ""
+
+            If flUpAttachment.HasFile Then
+
+                If flUpAttachment.PostedFile.ContentType.Contains("pdf") Then
+                    folder = Server.MapPath("~/Attachments/")
+
+                    FileSize = flUpAttachment.PostedFile.ContentLength()
+                    If FileSize > 524288000 Then
+                        MessageBox("File size should be within 50MB")
+                        Exit Sub
+                    End If
+
+                    DocPrefix = Title.Replace(" ", "")
+
+                    DocExt = System.IO.Path.GetExtension(flUpAttachment.FileName)
+                    DocFileName = "INV_" & DateTime.Now.ToString("ddMMyyHHmmss") & DocExt
+                    DocFullName = folder & DocFileName
+                    flUpAttachment.SaveAs(DocFullName)
+                    Invoice.Attachment = DocFileName
+                Else
+                    MessageBox("Only PDF file type is allowed")
+                    Exit Sub
+                End If
+            Else
+                MessageBox("Attachment Is Mandatory!")
+                Exit Sub
+            End If
+
             Invoice.InvoiceNo = txtInvoiceNumber.Text
             Invoice.SupplierID = drpSupplier.SelectedValue
             Invoice.InvoiceDate = txtPurchaseDate.Text
@@ -53,7 +86,6 @@ Partial Class Procurement_frmInvoiceInput
         drpApprover.SelectedIndex = -1
 
         grdInvoiceList.SelectedIndex = -1
-
         grdInvoiceList.DataSource = ""
         grdInvoiceList.DataBind()
     End Sub
@@ -117,6 +149,24 @@ Partial Class Procurement_frmInvoiceInput
         A.Value = "N\A"
 
         drpApprover.Items.Insert(0, A)
+    End Sub
+
+    Protected Sub grdInvoiceList_RowDeleting(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewDeleteEventArgs) Handles grdInvoiceList.RowDeleting
+        Try
+            Dim lblInvoiceID As New Label
+            lblInvoiceID = grdInvoiceList.Rows(e.RowIndex).FindControl("lblInvoiceID")
+
+            Dim check As Integer = InvoiceData.fnDeleteInvoice(lblInvoiceID.Text)
+
+            If check = 1 Then
+                ClearInvoiceForm()
+                ShowInvoiceDetails()
+                MessageBox("Invoice Deleted Successfully.")
+            End If
+
+        Catch ex As Exception
+            MessageBox(ex.Message)
+        End Try
     End Sub
 
 End Class

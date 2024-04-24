@@ -144,4 +144,34 @@ Public Class clsWarehouseDataAccess
 
 #End Region
 
+#Region " Get Item Balance Adj Hist "
+
+    Public Function fnGetItemBalanceAdjHist(ByVal WarehouseID As String, ByVal ItemID As String, ByVal StartDate As Date, ByVal EndDate As Date) As DataSet
+
+        Dim sp As String = "spGetItemBalanceAdjHist"
+        Dim da As SqlDataAdapter = New SqlDataAdapter()
+        Dim ds As DataSet = New DataSet()
+        Try
+            con.Open()
+            Using cmd = New SqlCommand(sp, con)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.AddWithValue("@WarehouseID", WarehouseID)
+                cmd.Parameters.AddWithValue("@ItemID", ItemID)
+                cmd.Parameters.AddWithValue("@StartDate", StartDate)
+                cmd.Parameters.AddWithValue("@EndDate", EndDate)
+                da.SelectCommand = cmd
+                da.Fill(ds)
+                con.Close()
+                Return ds
+            End Using
+        Catch ex As Exception
+            If con.State = ConnectionState.Open Then
+                con.Close()
+            End If
+            Return Nothing
+        End Try
+    End Function
+
+#End Region
+
 End Class

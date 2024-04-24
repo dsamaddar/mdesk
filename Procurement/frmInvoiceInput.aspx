@@ -164,9 +164,11 @@
                                 <asp:DropDownList ID="drpApprover" runat="server" CssClass="InputTxtBox" Width="200px">
                                 </asp:DropDownList>
                             </td>
-                            <td>
+                            <td class="label">
+                                Attachment
                             </td>
                             <td>
+                                <asp:FileUpload ID="flUpAttachment" runat="server" accept=".pdf" />
                             </td>
                             <td>
                             </td>
@@ -208,7 +210,6 @@
                                 &nbsp;
                             </td>
                             <td>
-                                &nbsp;
                             </td>
                             <td>
                                 &nbsp;
@@ -239,12 +240,18 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="InvoiceID" Visible="False">
                                     <ItemTemplate>
-                                        <asp:Label ID="Label1" runat="server" Text='<%# Bind("InvoiceID") %>'></asp:Label>
+                                        <asp:Label ID="lblInvoiceID" runat="server" Text='<%# Bind("InvoiceID") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="InvoiceNo">
                                     <ItemTemplate>
                                         <asp:Label ID="Label2" runat="server" Text='<%# Bind("InvoiceNo") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Attachment">
+                                    <ItemTemplate>
+                                        <asp:HyperLink ID="hpDocument" runat="server" CssClass="linkbtn" NavigateUrl='<%# "~/Attachments/" + Eval("Attachment") %>'
+                                            Target="_blank">View</asp:HyperLink>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="SupplierID" Visible="False">
@@ -265,6 +272,12 @@
                                 <asp:TemplateField HeaderText="InvoiceCost">
                                     <ItemTemplate>
                                         <asp:Label ID="Label6" runat="server" Text='<%# Bind("InvoiceCost") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Delete" ShowHeader="False">
+                                    <ItemTemplate>
+                                        <asp:ImageButton ID="imgbtnDelete" ImageUrl="~/Sources/icons/erase.png" OnClientClick="if (!confirm('Are you Sure to Delete The Invoice ?')) return false"
+                                            CommandName="Delete" runat="server" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

@@ -2,7 +2,7 @@
 
 Public Class clsInvoice
 
-    Dim _InvoiceID, _InvoiceNo, _SupplierID, _SubmittedBy, _ApproverID, _ApprovedBy, _RejectedBy, _EntryBy, _ItemID As String
+    Dim _InvoiceID, _InvoiceNo, _Attachment, _SupplierID, _SubmittedBy, _ApproverID, _ApprovedBy, _RejectedBy, _EntryBy, _ItemID As String
 
     Public Property InvoiceID() As String
         Get
@@ -19,6 +19,15 @@ Public Class clsInvoice
         End Get
         Set(ByVal value As String)
             _InvoiceNo = value
+        End Set
+    End Property
+
+    Public Property Attachment() As String
+        Get
+            Return _Attachment
+        End Get
+        Set(ByVal value As String)
+            _Attachment = value
         End Set
     End Property
 

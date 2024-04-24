@@ -119,6 +119,8 @@
                                 Value="RptCurrentPrice"></asp:MenuItem>
                             <asp:MenuItem NavigateUrl="~/Report/frmReportBalanceTransferHistory.aspx" Text="Balance Transfer History"
                                 Value="RptBalTransHist"></asp:MenuItem>
+                                <asp:MenuItem NavigateUrl="~/Report/frmReportBalanceAdjHist.aspx" Text="Balance Adj History"
+                                Value="RptBalAdjHist"></asp:MenuItem>
                                 
                         </asp:MenuItem>
                         <asp:MenuItem Text="Admin" Value="Administration">

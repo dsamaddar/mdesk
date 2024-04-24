@@ -15,12 +15,34 @@ Public Class clsInvoiceDataAccess
             cmd.CommandType = CommandType.StoredProcedure
 
             cmd.Parameters.AddWithValue("@InvoiceNo", Invoice.InvoiceNo)
+            cmd.Parameters.AddWithValue("@Attachment", Invoice.Attachment)
             cmd.Parameters.AddWithValue("@SupplierID", Invoice.SupplierID)
             cmd.Parameters.AddWithValue("@InvoiceDate", Invoice.InvoiceDate)
             cmd.Parameters.AddWithValue("@InvoiceCost", Invoice.InvoiceCost)
             cmd.Parameters.AddWithValue("@ApproverID", Invoice.ApproverID)
             cmd.Parameters.AddWithValue("@EntryBy", Invoice.EntryBy)
 
+            cmd.ExecuteNonQuery()
+            con.Close()
+            Return 1
+        Catch ex As Exception
+            If con.State = ConnectionState.Open Then
+                con.Close()
+            End If
+            Return 0
+        End Try
+    End Function
+
+#End Region
+
+#Region " Delete Invoice "
+
+    Public Function fnDeleteInvoice(ByVal InvoiceID As String) As Integer
+        Try
+            Dim cmd As SqlCommand = New SqlCommand("spDeleteInvoice", con)
+            con.Open()
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("@InvoiceID", InvoiceID)
             cmd.ExecuteNonQuery()
             con.Close()
             Return 1

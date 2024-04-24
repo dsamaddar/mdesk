@@ -194,7 +194,6 @@ Partial Class Report_frmReportRequisition
         Catch ex As Exception
             MessageBox(ex.Message)
         End Try
-
     End Sub
 
     Private Sub MessageBox(ByVal strMsg As String)
