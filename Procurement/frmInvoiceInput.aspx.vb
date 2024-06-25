@@ -75,7 +75,6 @@ Partial Class Procurement_frmInvoiceInput
             MessageBox(ex.Message)
         End Try
        
-
     End Sub
 
     Protected Sub ClearInvoiceForm()
